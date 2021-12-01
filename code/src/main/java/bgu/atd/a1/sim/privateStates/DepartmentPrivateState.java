@@ -1,14 +1,15 @@
 package bgu.atd.a1.sim.privateStates;
 
-import java.util.List;
-
-
 import bgu.atd.a1.PrivateState;
+
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  * this class describe department's private state
  */
 public class DepartmentPrivateState extends PrivateState{
+
 	private List<String> courseList;
 	private List<String> studentList;
 	
@@ -17,17 +18,23 @@ public class DepartmentPrivateState extends PrivateState{
 	 * you allowed to add any other parameter to this constructor - changing
 	 * this may cause automatic tests to fail..
 	 */
-	public DepartmentPrivateState() {
-		//TODO: replace method body with real implementation
-		throw new UnsupportedOperationException("Not Implemented Yet.");
+	public DepartmentPrivateState(){
+
+		courseList = new LinkedList<>();
+		studentList = new LinkedList<>();
+		
 	}
 
-	public List<String> getCourseList() {
+	public List<String> getCourseList(){
+
 		return courseList;
+
 	}
 
-	public List<String> getStudentList() {
+	public List<String> getStudentList(){
+
 		return studentList;
+
 	}
 	
 }

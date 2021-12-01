@@ -1,9 +1,8 @@
 package bgu.atd.a1.sim.privateStates;
 
-import java.util.HashMap;
-
-
 import bgu.atd.a1.PrivateState;
+
+import java.util.HashMap;
 
 /**
  * this class describe student private state
@@ -18,16 +17,23 @@ public class StudentPrivateState extends PrivateState{
 	 * you allowed to add any other parameter to this constructor - changing
 	 * this may cause automatic tests to fail..
 	 */
-	public StudentPrivateState() {
-		//TODO: replace method body with real implementation
-		throw new UnsupportedOperationException("Not Implemented Yet.");
+	public StudentPrivateState(){
+		
+		grades = new HashMap<>();
+		signature = 0;
+
 	}
 
-	public HashMap<String, Integer> getGrades() {
+	public HashMap<String, Integer> getGrades(){
+
 		return grades;
+
 	}
 
-	public long getSignature() {
+	public long getSignature(){
+
 		return signature;
+
 	}
+
 }

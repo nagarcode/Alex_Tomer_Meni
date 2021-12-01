@@ -36,7 +36,7 @@ public class ActorThreadPool {
 	 *            the number of threads that should be started by this thread
 	 *            pool
 	 */
-	public ActorThreadPool(int nthreads) {
+	public ActorThreadPool(int nthreads){
 		initializeThreads(nthreads);
 		actors = new ConcurrentHashMap<String, Actor>();
 		shutDownLatch = new CountDownLatch(nthreads);

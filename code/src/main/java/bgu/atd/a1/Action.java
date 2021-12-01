@@ -18,7 +18,7 @@ public abstract class Action<R>{
 
 	private String actionName;/////
 	private Promise<R> promise;/////
-	private ActorThreadPool actorThreadPool;/////
+	protected ActorThreadPool actorThreadPool;/////
 	
 
 
@@ -47,8 +47,10 @@ public abstract class Action<R>{
 
    		if(!(getResult()).isResolved())
    			start();
-   		else
+   		else{
    			pool.submit(this, actorId, actorState);
+   			actorState.addRecord(actionName);
+   		}
 
    }
     
