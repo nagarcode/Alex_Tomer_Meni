@@ -36,4 +36,10 @@ public class StudentPrivateState extends PrivateState{
 
 	}
 
+	public void SetSignature(long signature){/////
+
+		this.signature = signature;
+
+	}
+
 }

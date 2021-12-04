@@ -2,15 +2,20 @@ package bgu.atd.a1.sim;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
-public class Computer {
+public class Computer{
 
 	String computerType;
 	long failSig;
 	long successSig;
+	Semaphore mutex;
 	
-	public Computer(String computerType) {
+	public Computer(String computerType){
+
 		this.computerType = computerType;
+		mutex = new Semaphore(1);
+
 	}
 	
 	/**
@@ -22,7 +27,24 @@ public class Computer {
 	 * @return a signature if couersesGrades grades meet the conditions
 	 */
 	public long checkAndSign(List<String> courses, Map<String, Integer> coursesGrades){
-		//TODO: replace method body with real implementation
-		throw new UnsupportedOperationException("Not Implemented Yet.");
+		
+		long output = successSig;
+
+		for(String course : courses){
+			if(coursesGrades.get(course) < 56){
+				output = failSig;
+				break;
+			}
+		}
+
+		return output;
+
 	}
+
+	public Semaphore GetMutex(){
+
+		return mutex;
+		
+	}
+
 }

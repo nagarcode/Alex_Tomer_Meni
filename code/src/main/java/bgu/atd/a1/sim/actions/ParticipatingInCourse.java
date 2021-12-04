@@ -29,7 +29,7 @@ public class ParticipatingInCourse extends Action<Boolean>{
 		CoursePrivateState coursePrivateState = (CoursePrivateState) ((actorThreadPool.getActors()).get(courseName));
 		StudentPrivateState studentPrivateState = (StudentPrivateState) ((actorThreadPool.getActors()).get(studentID));
 
-		if(VerifyAvailableSpots(coursePrivateState) && VerifyPrerequisites(coursePrivateState.getPrequisites(), studentPrivateState.getGrades())){
+		if((coursePrivateState.getAvailableSpots()).intValue() != -1 && (VerifyAvailableSpots(coursePrivateState) && VerifyPrerequisites(coursePrivateState.getPrequisites(), studentPrivateState.getGrades()))){
 			(coursePrivateState.getRegStudents()).add(studentID);
 			coursePrivateState.SetRegisteredStudents((coursePrivateState.getRegistered()).intValue() + 1);
 			(studentPrivateState.getGrades()).put(courseName, grade);
@@ -40,14 +40,9 @@ public class ParticipatingInCourse extends Action<Boolean>{
 
 	}
 
-	private boolean VerifyAvailableSpots(CoursePrivateState coursePrivateState){///Might want to revise
+	private boolean VerifyAvailableSpots(CoursePrivateState coursePrivateState){
 
-		boolean output = false;
-
-		if((coursePrivateState.getRegistered()).intValue() < (coursePrivateState.getAvailableSpots()).intValue())
-			output = true;
-
-		return output;
+		return (coursePrivateState.getRegistered()).intValue() < (coursePrivateState.getAvailableSpots()).intValue() ? true : false;
 
 	}
 
