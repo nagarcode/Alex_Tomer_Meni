@@ -6,6 +6,7 @@ bgu\atd\a1\Promise.class
 bgu\atd\a1\sim\privateStates\DepartmentPrivateState.class
 bgu\atd\a1\sim\privateStates\StudentPrivateState.class
 bgu\atd\a1\ActorThreadPool.class
+bgu\atd\a1\sim\actions\RegisterWithPreferences.class
 bgu\atd\a1\sim\actions\CheckAdministrativeObligations.class
 bgu\atd\a1\sim\actions\Unregister.class
 bgu\atd\a1\PrivateState.class
@@ -16,5 +17,8 @@ bgu\atd\a1\sim\actions\OpenANewCourse.class
 bgu\atd\a1\sim\privateStates\CoursePrivateState.class
 bgu\atd\a1\sim\Simulator.class
 bgu\atd\a1\sim\actions\AddStudent.class
+bgu\atd\a1\sim\Simulator$ParseComputer.class
 bgu\atd\a1\sim\actions\NotifyWhenComputerIsReady.class
+bgu\atd\a1\sim\Simulator$ParseAction.class
+bgu\atd\a1\sim\Simulator$ParseJSONInput.class
 bgu\atd\a1\sim\actions\ParticipatingInCourse.class

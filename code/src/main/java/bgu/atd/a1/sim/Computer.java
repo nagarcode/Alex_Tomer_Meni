@@ -6,10 +6,10 @@ import java.util.concurrent.Semaphore;
 
 public class Computer{
 
-	String computerType;
-	long failSig;
-	long successSig;
-	Semaphore mutex;
+	private String computerType;
+	private long failSig;
+	private long successSig;
+	private Semaphore mutex;
 	
 	public Computer(String computerType){
 
@@ -44,7 +44,27 @@ public class Computer{
 	public Semaphore GetMutex(){
 
 		return mutex;
-		
+
+	}
+
+	public void SetFailSignature(long failSignature){
+
+		failSig = failSignature;
+
+	}
+
+	public void SetSuccessSignature(long successSignature){
+
+		successSig = successSignature;
+
+	}
+
+	public void PrintComputer(){
+
+		System.out.format("The value of computerType is: %s\n", computerType);
+		System.out.format("The value of failSig is: %ld\n", failSig);
+		System.out.format("The value of successSig is: %ld\n", successSig);
+
 	}
 
 }

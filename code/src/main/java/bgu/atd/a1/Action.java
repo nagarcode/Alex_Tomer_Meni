@@ -1,5 +1,7 @@
 package bgu.atd.a1;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Collection;
 import java.util.Iterator;/////
 
@@ -16,11 +18,10 @@ import java.util.Iterator;/////
  */
 public abstract class Action<R>{
 
+	@SerializedName("Action")
 	private String actionName;/////
 	private Promise<R> promise;/////
 	protected ActorThreadPool actorThreadPool;/////
-	
-
 
 	/**
      * start handling the action - note that this method is protected, a thread
