@@ -24,13 +24,17 @@ import java.util.LinkedList;
 
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+
+import java.lang.InterruptedException;
 
 /**
  * A class describing the simulator for part 2 of the assignment
  */
 public class Simulator{
 
-	private static int numberOfThreads;
 	private static String inputFileName;
 	public static ActorThreadPool actorThreadPool;
 	
@@ -45,7 +49,7 @@ public class Simulator{
 			JsonReader jsonReader = new JsonReader(new FileReader(inputFileName));
 			ParseJSONInput parsedObject = gson.fromJson(jsonReader, ParseJSONInput.class);
 			
-			numberOfThreads = parsedObject.threads;
+			attachActorThreadPool(new ActorThreadPool(parsedObject.threads));
 
 			for(int i = 0; i < (parsedObject.Computers).length; i++){
 				Computer computer = new Computer((parsedObject.Computers[i]).Type);
@@ -85,16 +89,41 @@ public class Simulator{
 	* returns list of private states
 	*/
 	public static HashMap<String,PrivateState> end(){
-		//TODO: replace method body with real implementation
-		throw new UnsupportedOperationException("Not Implemented Yet.");
+
+		try{
+			actorThreadPool.shutdown();
+		}	
+		catch(InterruptedException exception){
+			System.out.println("Thread was interrupted.");
+		}
+
+		HashMap<String, PrivateState> output = new HashMap<>(actorThreadPool.getActors());
+
+		try{
+			FileOutputStream fileOutputStream = new FileOutputStream("result.ser");
+			try{
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+				objectOutputStream.writeObject(output);
+			}
+			catch(IOException exception){
+				System.out.println("IO exception encountered.");
+			}	
+		}
+		catch(FileNotFoundException exception){
+			System.out.println("Couldn't find the supplied file.");
+		}	
+
+		return output;
+
 	}
 	
 	
-	public static int main(String [] args){
+	public static void main(String [] args){
 		
-		
+		start();
 
-		return 0;
+		end();
 
 	}
 

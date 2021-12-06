@@ -132,7 +132,7 @@ public class ActorThreadPool {
 	 * @throws InterruptedException
 	 *             if the thread that shut down the threads is interrupted
 	 */
-	public void shutdown() throws InterruptedException {
+	public void shutdown() throws InterruptedException{
 		System.out.println("Shutdown initiated");
 		for(Thread thread : threads){
 			thread.interrupt();
