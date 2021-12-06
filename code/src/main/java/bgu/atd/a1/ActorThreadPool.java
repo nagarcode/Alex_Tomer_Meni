@@ -1,6 +1,7 @@
 package bgu.atd.a1;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,9 +21,9 @@ import java.util.concurrent.locks.Lock;
  */
 public class ActorThreadPool {
 
-	private List<Thread> threads;
-	private ConcurrentHashMap<String, Actor> actors;
-	private CountDownLatch shutDownLatch;
+	private final List<Thread> threads;
+	private final ConcurrentHashMap<String, Actor> actors;
+	private final CountDownLatch shutDownLatch;
 
 	/**
 	 * creates a {@link ActorThreadPool} which has nthreads. Note, threads
@@ -37,27 +38,32 @@ public class ActorThreadPool {
 	 *            pool
 	 */
 	public ActorThreadPool(int nthreads){
-		initializeThreads(nthreads);
+		threads = new LinkedList<>();
 		actors = new ConcurrentHashMap<String, Actor>();
 		shutDownLatch = new CountDownLatch(nthreads);
+		initializeThreads(nthreads);
 	}
 
 	private void initializeThreads(int nthreads) {
 		for(int i=0; i<nthreads; i++){
-			threads.add(new Thread(()->{
+			Thread thread = new Thread(()->{
+				System.out.println(Thread.currentThread().getId()); //TODO delete
 				while(!Thread.currentThread().isInterrupted()){
 					iterateOverQueues();
 				}
-			}));
+				System.out.println("Thread interrupted: " + Thread.currentThread().toString());
+				shutDownLatch.countDown();
+			});
+			threads.add(thread);
+//			System.out.println("Added thread "+ i); //TODO delete
 		}
 	}
 
 	private void iterateOverQueues() {
 		for(Actor actor : actors.values()) {
-			if (Thread.currentThread().isInterrupted()) {
-				shutDownLatch.countDown();
-				break;
-			} else {
+//			if (Thread.currentThread().isInterrupted()) {
+//				break;
+//			} else {
 				Lock actorLock = actor.getLock();
 				ConcurrentLinkedQueue<Action<?>> actorQueue = actor.getPendingActions();
 				if(actorLock.tryLock() && !actorQueue.isEmpty()){
@@ -73,7 +79,7 @@ public class ActorThreadPool {
 						actorLock.unlock();
 					}
 				}
-			}
+//			}
 		}
 	}
 
@@ -111,6 +117,7 @@ public class ActorThreadPool {
 	 *            actor's private state (actor's information)
 	 */
 	public void submit(Action<?> action, String actorId, PrivateState actorState) {
+		System.out.println("Submitting " + action.getActionName()); // TODO delete
 		synchronized (this){
 			if(actors.containsKey(actorId)){
 				actors.get(actorId).addAction(action);
@@ -147,6 +154,7 @@ public class ActorThreadPool {
 	 */
 	public void start() {
 		for(Thread thread : threads){
+			System.out.println("Starting thread: " + thread.getId());
 			thread.start();
 		}
 		System.out.println("ThreadPool started");

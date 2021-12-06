@@ -44,6 +44,7 @@ public abstract class Action<R>{
     */
    /*package*/ final void handle(ActorThreadPool pool, String actorId, PrivateState actorState){/////
 
+		System.out.println("Handling action: "+ actionName); //TODO delete
    		actorThreadPool = pool;
 
    		if(!(getResult()).isResolved())

@@ -29,6 +29,7 @@ import java.io.ObjectOutputStream;
 import java.io.IOException;
 
 import java.lang.InterruptedException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A class describing the simulator for part 2 of the assignment
@@ -37,19 +38,14 @@ public class Simulator{
 
 	private static String inputFileName;
 	public static ActorThreadPool actorThreadPool;
+	private static ParseJSONInput parsedObject;
 	
 	/**
 	* Begin the simulation Should not be called before attachActorThreadPool()
 	*/
     public static void start(){
 		
-		Gson gson = new Gson();
-
-		try{
-			JsonReader jsonReader = new JsonReader(new FileReader(inputFileName));
-			ParseJSONInput parsedObject = gson.fromJson(jsonReader, ParseJSONInput.class);
-			
-			attachActorThreadPool(new ActorThreadPool(parsedObject.threads));
+			attachActorThreadPool(actorThreadPool);
 
 			for(int i = 0; i < (parsedObject.Computers).length; i++){
 				Computer computer = new Computer((parsedObject.Computers[i]).Type);
@@ -66,13 +62,11 @@ public class Simulator{
 
 			for(int i = 0; i < (parsedObject.Phase3).length; i++)
 				ConvertParsedActionIntoAProperActionObjectAndSubmit(parsedObject.Phase3[i]);
-		}
-		catch(FileNotFoundException exception){
-			System.out.println("Couldn't find the supplied file.");
-		}	
+
+			actorThreadPool.start();
 
     }
-	
+
 	/**
 	* attach an ActorThreadPool to the Simulator, this ActorThreadPool will be used to run the simulation
 	* 
@@ -120,10 +114,27 @@ public class Simulator{
 	
 	
 	public static void main(String [] args){
-		
-		start();
+		try {
+			inputFileName = args[0];
+			Gson gson = new Gson();
+			JsonReader jsonReader = new JsonReader(new FileReader(inputFileName));
+			parsedObject = gson.fromJson(jsonReader, ParseJSONInput.class);
+			actorThreadPool = new ActorThreadPool(parsedObject.threads);
+		}
+		catch(FileNotFoundException exception){
+			System.out.println("Couldn't find the supplied file.");
+			System.out.println(exception);
+		}
 
-		end();
+		start();
+		try { //TODO remove whole block and import
+			TimeUnit.SECONDS.sleep(5);
+		}
+		catch(Exception e ){
+			System.out.println(e);
+		}
+			end();
+
 
 	}
 
