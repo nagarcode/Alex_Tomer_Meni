@@ -52,11 +52,11 @@ public abstract class Action<R>{
    		actorThreadPool = pool;
 
    		if(!(getResult()).isResolved()) {
+			actorState.addRecord(actionName);
 			start();
 		}
    		else{
    			pool.submit(this, actorId, actorState);
-   			actorState.addRecord(actionName);
 			   System.out.println("added record");
    		}
 

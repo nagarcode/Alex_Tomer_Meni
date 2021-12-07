@@ -36,9 +36,9 @@ public abstract class PrivateState{
 	public String toString(){
 		StringBuilder out = new StringBuilder();
 		for (String entry: history) {
-		out.append(entry).append('\n');
+		out.append(entry).append(", ");
 		}
-		return out.toString();
+		return out.toString().substring(0,out.length()-2);
 	}
 	
 }
