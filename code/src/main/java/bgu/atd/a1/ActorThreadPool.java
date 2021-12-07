@@ -116,13 +116,11 @@ public class ActorThreadPool {
 	 */
 	public void submit(Action<?> action, String actorId, PrivateState actorState) {
 		synchronized (this){
-			if(actors.containsKey(actorId)){
-				actors.get(actorId).addAction(action);
-			}
-			else{
+			if(!actors.containsKey(actorId)){
 				Actor actor = new Actor(actorId,actorState);
 				actors.put(actorId, actor);
 			}
+			actors.get(actorId).addAction(action);
 		}
 	}
 
