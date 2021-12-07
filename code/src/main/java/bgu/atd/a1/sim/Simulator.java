@@ -172,7 +172,7 @@ public class Simulator{
 				actorThreadPool.submit(actionToBeSubmitted, parsedAction.Course, new CoursePrivateState());
 				break;
 			default:
-				actionToBeSubmitted = new RegisterWithPreferences();
+				actionToBeSubmitted = new RegisterWithPreferences(parsedAction.Student, ConvertStringArrayIntoAList(parsedAction.Preferences), ConvertIntegerArrayIntoAList(parsedAction.Grade));
 				actorThreadPool.submit(actionToBeSubmitted, parsedAction.Department, new DepartmentPrivateState());
 		}
 
@@ -187,7 +187,18 @@ public class Simulator{
 
 		return output;
 
-	} 
+	}
+
+	private static List<Integer> ConvertIntegerArrayIntoAList(Integer[] integerArray){
+
+		List<Integer> output = new LinkedList<>();
+
+		for(int i = 0; i < integerArray.length; i++)
+			output.add(integerArray[i]);
+
+		return output;
+
+	}  
 
 	private class ParseJSONInput{
 
@@ -226,7 +237,7 @@ public class Simulator{
 		private int Space;
 		private String[] Prerequisites;
 		private String Student;
-		private int[] Grade;
+		private Integer[] Grade;
 		private int Number;
 		private String[] Preferences;
 		private String[] Students;
