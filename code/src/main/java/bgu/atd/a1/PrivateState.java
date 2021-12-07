@@ -1,5 +1,6 @@
 package bgu.atd.a1;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,11 +11,17 @@ import java.util.List;
 public abstract class PrivateState{
 	
 	// holds the actions' name what were executed
-	private List<String> history;
+	private final List<String> history;
+
+	public PrivateState(){
+		history = new LinkedList<>();
+	}
 
 	public List<String> getLogger(){
 		return history;
 	}
+
+
 	
 	/**
 	 * add an action to the records
@@ -25,6 +32,13 @@ public abstract class PrivateState{
 		
 		history.add(actionName);
 
+	}
+	public String toString(){
+		StringBuilder out = new StringBuilder();
+		for (String entry: history) {
+		out.append(entry).append('\n');
+		}
+		return out.toString();
 	}
 	
 }

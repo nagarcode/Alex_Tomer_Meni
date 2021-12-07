@@ -19,7 +19,7 @@ public class DepartmentPrivateState extends PrivateState{
 	 * this may cause automatic tests to fail..
 	 */
 	public DepartmentPrivateState(){
-
+		super();
 		courseList = new LinkedList<>();
 		studentList = new LinkedList<>();
 		

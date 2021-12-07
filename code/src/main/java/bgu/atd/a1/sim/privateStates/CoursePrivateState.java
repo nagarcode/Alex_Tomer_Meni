@@ -21,7 +21,7 @@ public class CoursePrivateState extends PrivateState{
 	 * this may cause automatic tests to fail..
 	 */
 	public CoursePrivateState(){
-
+		super();
 		availableSpots = 0;
 		registered = 0;
 		regStudents = new LinkedList<>();

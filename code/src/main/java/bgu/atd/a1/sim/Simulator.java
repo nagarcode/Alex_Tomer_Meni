@@ -106,10 +106,10 @@ public class Simulator{
 		}
 		catch(FileNotFoundException exception){
 			System.out.println("Couldn't find the supplied file.");
-		}	
+		}
+		System.out.println(output);
 
 		return output;
-
 	}
 	
 	

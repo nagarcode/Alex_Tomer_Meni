@@ -10,7 +10,7 @@ public class Unregister extends Action<Boolean>{
 	private String courseName;
 
 	public Unregister(String studentID, String courseName){
-
+		super();
 		this.studentID = studentID;
 		this.courseName = courseName;
 

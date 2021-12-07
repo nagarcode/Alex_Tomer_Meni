@@ -14,7 +14,7 @@ public class ParticipatingInCourse extends Action<Boolean>{
 	private Integer grade;
 
 	public ParticipatingInCourse(String studentID, String courseName, Integer grade){
-
+		super();
 		this.studentID = studentID;
 		this.courseName = courseName;
 		this.grade = grade;

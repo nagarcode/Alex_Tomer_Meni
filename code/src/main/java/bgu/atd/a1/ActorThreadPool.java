@@ -47,7 +47,6 @@ public class ActorThreadPool {
 	private void initializeThreads(int nthreads) {
 		for(int i=0; i<nthreads; i++){
 			Thread thread = new Thread(()->{
-				System.out.println(Thread.currentThread().getId()); //TODO delete
 				while(!Thread.currentThread().isInterrupted()){
 					iterateOverQueues();
 				}
@@ -55,7 +54,6 @@ public class ActorThreadPool {
 				shutDownLatch.countDown();
 			});
 			threads.add(thread);
-//			System.out.println("Added thread "+ i); //TODO delete
 		}
 	}
 
@@ -67,17 +65,17 @@ public class ActorThreadPool {
 				Lock actorLock = actor.getLock();
 				ConcurrentLinkedQueue<Action<?>> actorQueue = actor.getPendingActions();
 				if(actorLock.tryLock() && !actorQueue.isEmpty()){
-					try{
+//					try{
 						Action<?> action = actorQueue.remove();
 						action.handle(this, actor.getId(),actor.getPrivateState());
-					}
-					catch(Exception e){
-						System.out.println("Tried querying an empty queue");
-						System.out.println(e.toString());
-					}
-					finally {
+//					}
+//					catch(Exception e){
+//						System.out.println("Tried querying an empty queue");
+//						System.out.println(e.toString());
+//					}
+//					finally {
 						actorLock.unlock();
-					}
+//					}
 				}
 //			}
 		}
@@ -117,7 +115,6 @@ public class ActorThreadPool {
 	 *            actor's private state (actor's information)
 	 */
 	public void submit(Action<?> action, String actorId, PrivateState actorState) {
-		System.out.println("Submitting " + action.getActionName()); // TODO delete
 		synchronized (this){
 			if(actors.containsKey(actorId)){
 				actors.get(actorId).addAction(action);

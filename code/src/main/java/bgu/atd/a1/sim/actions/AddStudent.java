@@ -10,7 +10,7 @@ public class AddStudent extends Action<Void>{
 	private String studentID;
 
 	public AddStudent(String departmentName, String studentID){
-
+		super();
 		this.departmentName = departmentName;
 		this.studentID = studentID;
 

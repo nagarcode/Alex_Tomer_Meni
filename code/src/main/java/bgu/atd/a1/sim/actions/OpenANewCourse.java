@@ -14,7 +14,7 @@ public class OpenANewCourse extends Action<Void>{
     private List<String> prerequisites;
 
     public OpenANewCourse(String departmentName, String courseName, int space, List<String> prerequisites){
-
+        super();
         this.departmentName = departmentName;
         this.courseName = courseName;
         this.space = space;

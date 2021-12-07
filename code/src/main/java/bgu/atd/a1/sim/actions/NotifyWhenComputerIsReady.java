@@ -8,7 +8,7 @@ public class NotifyWhenComputerIsReady extends Action<Void>{
 	private String computerType;
 
 	public NotifyWhenComputerIsReady(String computerType){
-
+		super();
 		this.computerType = computerType;
 
 	}

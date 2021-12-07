@@ -17,7 +17,7 @@ public class CheckAdministrativeObligations extends Action<Void>{
 	private List<String> prerequisites;
 
 	public CheckAdministrativeObligations(String departmentName, List<String> studentsIDs, String computerType, List<String> prerequisites){
-
+		super();
 		this.departmentName = departmentName;
 		this.studentsIDs = studentsIDs;
 		this.computerType = computerType;

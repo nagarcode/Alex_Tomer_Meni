@@ -24,6 +24,10 @@ public class Promise<T>{
 	private LinkedList<callback> subscribedCallbacks;/////
 	private boolean isResolved = false;/////
 
+	public Promise() {
+		subscribedCallbacks = new LinkedList<>();
+	}
+
 
 	/**
 	 *

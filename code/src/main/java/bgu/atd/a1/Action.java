@@ -23,6 +23,10 @@ public abstract class Action<R>{
 	private Promise<R> promise;/////
 	protected ActorThreadPool actorThreadPool;/////
 
+	public Action(){
+		promise = new Promise<>();
+	}
+
 	/**
      * start handling the action - note that this method is protected, a thread
      * cannot call it directly.
@@ -47,11 +51,13 @@ public abstract class Action<R>{
 		System.out.println("Handling action: "+ actionName); //TODO delete
    		actorThreadPool = pool;
 
-   		if(!(getResult()).isResolved())
-   			start();
+   		if(!(getResult()).isResolved()) {
+			start();
+		}
    		else{
    			pool.submit(this, actorId, actorState);
    			actorState.addRecord(actionName);
+			   System.out.println("added record");
    		}
 
    }
@@ -83,7 +89,7 @@ public abstract class Action<R>{
     protected final void complete(R result){/////
 
        	promise.resolve(result);
-   
+
     }
     
     /**
