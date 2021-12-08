@@ -4,12 +4,13 @@ import bgu.atd.a1.Action;
 import bgu.atd.a1.sim.privateStates.CoursePrivateState;
 import bgu.atd.a1.sim.privateStates.StudentPrivateState;
 
-public class Unregister extends Action<Boolean>{
+public class Unregister extends Action<Void>{
 
 	private String studentID;
 	private String courseName;
 
 	public Unregister(String studentID, String courseName){
+
 		super();
 		this.studentID = studentID;
 		this.courseName = courseName;
@@ -28,10 +29,9 @@ public class Unregister extends Action<Boolean>{
 			(coursePrivateState.getRegStudents()).remove(studentID);
 			coursePrivateState.SetRegisteredStudents((coursePrivateState.getRegistered()).intValue() - 1);
 			(studentPrivateState.getGrades()).remove(courseName);
-			complete(true);
 		}
-		else 
-			complete(false);
+		
+		complete(null);
 
 	}
 	

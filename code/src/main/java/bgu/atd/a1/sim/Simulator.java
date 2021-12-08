@@ -143,13 +143,22 @@ public class Simulator{
 			end();
 
 			//For testing result:
-			for(int i = 0; i < 2; i++)
-				System.out.format("Added the course: %s to department's actor\n", (( (DepartmentPrivateState) (actorThreadPool.getActors()).get("CS")).getCourseList()).get(i));
-			for(int i = 0; i < 1; i++)
-				System.out.format("Added the student: %s to department's actor\n", (( (DepartmentPrivateState) (actorThreadPool.getActors()).get("CS")).getStudentList()).get(i));
+			
+			List<String> registeredStudents = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getRegStudents();
+			if(registeredStudents.isEmpty())
+				System.out.println("Obtained an empty list as was expected.");
+			
+
+			List<String> coursesInDepartment = ( (DepartmentPrivateState) (actorThreadPool.getActors()).get("CS")).getCourseList();
+			for(String course : coursesInDepartment)
+				System.out.println(course);
+
 			System.out.format("The student got the grade: %d in Intro To CS\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getGrades()).get("Intro To CS"));
-			System.out.format("The student got the grade: %d in SPL\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getGrades()).get("SPL"));
-	
+			System.out.format("The student got the grade: %d in Intro To CS\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("987654321")).getGrades()).get("Intro To CS"));
+
+			System.out.format("The number of available spots for the Intro To CS course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getAvailableSpots());
+			System.out.format("The number of available spots for the SPL course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("SPL")).getAvailableSpots());
+
 	}
 
 	private static Action<?> ConvertParsedActionIntoAProperActionObjectAndSubmit(ParseAction parsedAction){

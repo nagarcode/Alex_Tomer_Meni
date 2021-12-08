@@ -9,6 +9,7 @@ public class OpenNewPlacesInACourse extends Action<Void>{
 	private int places;
 
 	public OpenNewPlacesInACourse(String courseName, int places){
+		
 		super();
 		this.courseName = courseName;
 		this.places = places;

@@ -10,6 +10,7 @@ public class CloseACourse extends Action<Void>{
 	private String courseName;
 
 	public CloseACourse(String departmentName, String courseName){
+		
 		super();
 		this.departmentName = departmentName;
 		this.courseName = courseName;
