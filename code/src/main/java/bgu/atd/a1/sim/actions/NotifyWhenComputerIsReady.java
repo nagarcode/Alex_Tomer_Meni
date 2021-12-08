@@ -1,28 +1,30 @@
 package bgu.atd.a1.sim.actions;
 
 import bgu.atd.a1.Action;
+import bgu.atd.a1.sim.privateStates.DepartmentPrivateState;
 import bgu.atd.a1.sim.Warehouse;
 
 public class NotifyWhenComputerIsReady extends Action<Void>{
 	
 	private String computerType;
+	private String departmentName;
 
-	public NotifyWhenComputerIsReady(String computerType){
+	public NotifyWhenComputerIsReady(String computerType, String departmentName){
+
 		super();
 		this.computerType = computerType;
+		this.departmentName = departmentName;
 
 	}
 
 	@Override
 	protected void start(){
 
-		while(true){
-			if(((((Warehouse.GetInstance()).GetComputers()).get(computerType)).GetMutex()).tryAcquire() == true){
-				complete(null);
-				break;
-			}
-		}
-
+		if(((((Warehouse.GetInstance()).GetComputers()).get(computerType)).GetMutex()).tryAcquire() == true)
+			complete(null);
+		else
+			sendMessage(this, departmentName, new DepartmentPrivateState());
+		
 	}
 
 }

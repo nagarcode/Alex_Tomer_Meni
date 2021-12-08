@@ -17,6 +17,7 @@ public class CheckAdministrativeObligations extends Action<Void>{
 	private List<String> prerequisites;
 
 	public CheckAdministrativeObligations(String departmentName, List<String> studentsIDs, String computerType, List<String> prerequisites){
+
 		super();
 		this.departmentName = departmentName;
 		this.studentsIDs = studentsIDs;
@@ -36,7 +37,7 @@ public class CheckAdministrativeObligations extends Action<Void>{
 			PerformAdministrativeWork(studentsIDs, computerType);
 		else{
 			List<Action<Void>> dependencies = new LinkedList<>();
-			NotifyWhenComputerIsReady notifyWhenComputerIsReady = new NotifyWhenComputerIsReady(computerType);
+			NotifyWhenComputerIsReady notifyWhenComputerIsReady = new NotifyWhenComputerIsReady(computerType, departmentName);
 			dependencies.add(notifyWhenComputerIsReady);
 			then(dependencies, () -> {
 				PerformAdministrativeWork(studentsIDs, computerType);

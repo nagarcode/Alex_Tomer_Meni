@@ -144,7 +144,7 @@ public class Simulator{
 
 			//For testing result:
 			
-			List<String> registeredStudents = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getRegStudents();
+			/*List<String> registeredStudents = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getRegStudents();
 			if(registeredStudents.isEmpty())
 				System.out.println("Obtained an empty list as was expected.");
 			
@@ -157,7 +157,9 @@ public class Simulator{
 			System.out.format("The student got the grade: %d in Intro To CS\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("987654321")).getGrades()).get("Intro To CS"));
 
 			System.out.format("The number of available spots for the Intro To CS course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getAvailableSpots());
-			System.out.format("The number of available spots for the SPL course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("SPL")).getAvailableSpots());
+			System.out.format("The number of available spots for the SPL course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("SPL")).getAvailableSpots());*/
+			System.out.format("The student got the following signature: %d\n", ((StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getSignature());
+			System.out.format("The student got the following signature: %d\n", ((StudentPrivateState) (actorThreadPool.getActors()).get("987654321")).getSignature());
 
 	}
 

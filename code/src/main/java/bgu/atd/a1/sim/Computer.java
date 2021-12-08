@@ -31,7 +31,7 @@ public class Computer{
 		long output = successSig;
 
 		for(String course : courses){
-			if(coursesGrades.get(course) < 56){
+			if(coursesGrades.get(course) == null || coursesGrades.get(course) < 56){
 				output = failSig;
 				break;
 			}
@@ -59,7 +59,7 @@ public class Computer{
 
 	}
 
-	public void PrintComputer(){
+	public void PrintComputer(){/////Remove this once done testing.
 
 		System.out.format("The value of computerType is: %s\n", computerType);
 		System.out.format("The value of failSig is: %ld\n", failSig);
