@@ -1,6 +1,7 @@
 package bgu.atd.a1.sim.actions;
 
 import bgu.atd.a1.Action;
+import bgu.atd.a1.Actor;
 import bgu.atd.a1.sim.privateStates.CoursePrivateState;
 import bgu.atd.a1.sim.privateStates.DepartmentPrivateState;
 
@@ -14,6 +15,7 @@ public class OpenANewCourse extends Action<Void>{
     private List<String> prerequisites;
 
     public OpenANewCourse(String departmentName, String courseName, int space, List<String> prerequisites){
+
         super();
         this.departmentName = departmentName;
         this.courseName = courseName;
@@ -33,7 +35,7 @@ public class OpenANewCourse extends Action<Void>{
         coursePrivateState.SetAvailableSpots(space);
         (coursePrivateState.getPrequisites()).addAll(prerequisites);
         
-        (actorThreadPool.getActors()).put(courseName, coursePrivateState);
+        (actorThreadPool.GetRawActors()).put(courseName, new Actor(courseName, coursePrivateState));
 
         complete(null);
 

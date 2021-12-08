@@ -14,6 +14,7 @@ public class ParticipatingInCourse extends Action<Boolean>{
 	private Integer grade;
 
 	public ParticipatingInCourse(String studentID, String courseName, Integer grade){
+
 		super();
 		this.studentID = studentID;
 		this.courseName = courseName;
@@ -51,10 +52,10 @@ public class ParticipatingInCourse extends Action<Boolean>{
 		boolean output = true;
 
 		for(String prerequisite : prerequisites){
-			if(output == false)
-				break;
-			if((grades.get(prerequisite)).intValue() < 56)
+			if(grades.get(prerequisite) == null || (grades.get(prerequisite)).intValue() < 56){
 				output = false;
+				break;
+			}
 		}
 
 		return output;

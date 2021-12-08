@@ -51,14 +51,15 @@ public abstract class Action<R>{
 		System.out.println("Handling action: "+ actionName); //TODO delete
    		actorThreadPool = pool;
 
-   		if(!(getResult()).isResolved()) {
+   		/*if(!(getResult()).isResolved()) {
 			actorState.addRecord(actionName);
 			start();
 		}
    		else{
    			pool.submit(this, actorId, actorState);
 			   System.out.println("added record");
-   		}
+   		}*/
+   		start();
 
    }
     

@@ -92,6 +92,12 @@ public class ActorThreadPool {
 		}
 		return acts;
 	}
+
+	public ConcurrentHashMap<String, Actor> GetRawActors(){
+
+		return actors;
+		
+	}
 	
 	/**
 	 * getter for actor's private state

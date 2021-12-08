@@ -44,7 +44,8 @@ public class Simulator{
 	* Begin the simulation Should not be called before attachActorThreadPool()
 	*/
     public static void start(){
-		
+			
+			Action<?>[] phase1Actions = new Action[(parsedObject.Phase1).length];
 			attachActorThreadPool(actorThreadPool);
 
 			for(int i = 0; i < (parsedObject.Computers).length; i++){
@@ -55,15 +56,21 @@ public class Simulator{
 			}
 
 			for(int i = 0; i < (parsedObject.Phase1).length; i++)
-				ConvertParsedActionIntoAProperActionObjectAndSubmit(parsedObject.Phase1[i]);
+				phase1Actions[i] = ConvertParsedActionIntoAProperActionObjectAndSubmit(parsedObject.Phase1[i]);
+			
+			actorThreadPool.start();
+
+			while(!IsPhaseOneCompleted(phase1Actions)){
+				System.out.println("Waiting for phase 1 to be completed first before proceeding...");
+			}
 
 			for(int i = 0; i < (parsedObject.Phase2).length; i++)
 				ConvertParsedActionIntoAProperActionObjectAndSubmit(parsedObject.Phase2[i]);
 
-			for(int i = 0; i < (parsedObject.Phase3).length; i++)
-				ConvertParsedActionIntoAProperActionObjectAndSubmit(parsedObject.Phase3[i]);
+			/*for(int i = 0; i < (parsedObject.Phase3).length; i++)
+				ConvertParsedActionIntoAProperActionObjectAndSubmit(parsedObject.Phase3[i]);*/
 
-			actorThreadPool.start();
+			//actorThreadPool.start();
 
     }
 
@@ -107,7 +114,7 @@ public class Simulator{
 		catch(FileNotFoundException exception){
 			System.out.println("Couldn't find the supplied file.");
 		}
-		System.out.println(output);
+		//System.out.println(output);
 
 		return output;
 	}
@@ -135,10 +142,17 @@ public class Simulator{
 		}
 			end();
 
-
+			//For testing result:
+			for(int i = 0; i < 2; i++)
+				System.out.format("Added the course: %s to department's actor\n", (( (DepartmentPrivateState) (actorThreadPool.getActors()).get("CS")).getCourseList()).get(i));
+			for(int i = 0; i < 1; i++)
+				System.out.format("Added the student: %s to department's actor\n", (( (DepartmentPrivateState) (actorThreadPool.getActors()).get("CS")).getStudentList()).get(i));
+			System.out.format("The student got the grade: %d in Intro To CS\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getGrades()).get("Intro To CS"));
+			System.out.format("The student got the grade: %d in SPL\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getGrades()).get("SPL"));
+	
 	}
 
-	private static void ConvertParsedActionIntoAProperActionObjectAndSubmit(ParseAction parsedAction){
+	private static Action<?> ConvertParsedActionIntoAProperActionObjectAndSubmit(ParseAction parsedAction){
 
 		Action<?> actionToBeSubmitted;
 
@@ -176,6 +190,8 @@ public class Simulator{
 				actorThreadPool.submit(actionToBeSubmitted, parsedAction.Department, new DepartmentPrivateState());
 		}
 
+		return actionToBeSubmitted;
+
 	}
 
 	private static List<String> ConvertStringArrayIntoAList(String[] stringArray){
@@ -195,6 +211,19 @@ public class Simulator{
 
 		for(int i = 0; i < integerArray.length; i++)
 			output.add(integerArray[i]);
+
+		return output;
+
+	}
+
+	private static boolean IsPhaseOneCompleted(Action<?>[] phaseOneActions){
+
+		boolean output = true;
+
+		for(int i = 0; i < phaseOneActions.length; i++){
+			if(!(phaseOneActions[i].getResult()).isResolved())
+				output = false;
+		}
 
 		return output;
 
