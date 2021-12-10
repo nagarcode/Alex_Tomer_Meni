@@ -1,7 +1,7 @@
 package bgu.atd.a1;
 
 import java.util.Iterator;
-import java.util.LinkedList;/////
+import java.util.LinkedList;
 
 /**
  * this class represents a deferred result i.e., an object that eventually will
@@ -20,11 +20,11 @@ import java.util.LinkedList;/////
  */
 public class Promise<T>{
 
-	private T result;/////
-	private LinkedList<callback> subscribedCallbacks;/////
-	private boolean isResolved = false;/////
+	private T result;
+	private LinkedList<callback> subscribedCallbacks;
+	private boolean isResolved = false;
 
-	public Promise() {
+	public Promise(){
 		subscribedCallbacks = new LinkedList<>();
 	}
 
@@ -37,7 +37,7 @@ public class Promise<T>{
 	 *             in the case where this method is called and this object is
 	 *             not yet resolved
 	 */
-	public T get(){/////
+	public T get(){
 		
 		if(isResolved)
 			return result;
@@ -52,7 +52,7 @@ public class Promise<T>{
 	 *         {@link #resolve(java.lang.Object)} has been called on this object
 	 *         before.
 	 */
-	public boolean isResolved(){/////
+	public boolean isResolved(){
 		
 		return isResolved;
 
@@ -72,12 +72,12 @@ public class Promise<T>{
 	 * @param value
 	 *            - the value to resolve this promise object with
 	 */
-	public void resolve(T value){/////
+	public void resolve(T value){
 
 		if(isResolved)
 			throw new IllegalStateException("This Promise object is already resolved.");
 		else{
-			if(value != null)//Remove after testing!!!!!
+			if(value != null)//Remove after finishing testing
 				System.out.println(value);
 			result = value;
 			isResolved = true;
@@ -87,7 +87,7 @@ public class Promise<T>{
 			while(iterator.hasNext()){
 				callback callbackToBeExecuted = iterator.next();
 				callbackToBeExecuted.call();
-				subscribedCallbacks.remove(callbackToBeExecuted);/////Remove the callback reference from the object once it's been executed.
+				subscribedCallbacks.remove(callbackToBeExecuted);
 			}
 		}	
 
@@ -106,7 +106,7 @@ public class Promise<T>{
 	 * @param callback
 	 *            the callback to be called when the promise object is resolved
 	 */
-	public void subscribe(callback callback){/////
+	public void subscribe(callback callback){
 		
 		if(isResolved)
 			callback.call();

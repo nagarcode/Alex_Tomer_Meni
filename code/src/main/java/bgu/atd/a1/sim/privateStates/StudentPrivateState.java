@@ -18,6 +18,7 @@ public class StudentPrivateState extends PrivateState{
 	 * this may cause automatic tests to fail..
 	 */
 	public StudentPrivateState(){
+
 		super();
 		grades = new HashMap<>();
 		signature = 0;
@@ -36,7 +37,7 @@ public class StudentPrivateState extends PrivateState{
 
 	}
 
-	public void SetSignature(long signature){/////
+	public void SetSignature(long signature){
 
 		this.signature = signature;
 

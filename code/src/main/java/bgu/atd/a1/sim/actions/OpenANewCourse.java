@@ -7,6 +7,8 @@ import bgu.atd.a1.sim.privateStates.DepartmentPrivateState;
 
 import java.util.List;
 
+import java.util.concurrent.CountDownLatch;
+
 public class OpenANewCourse extends Action<Void>{
 
     private String departmentName;
@@ -14,9 +16,9 @@ public class OpenANewCourse extends Action<Void>{
     private int space;
     private List<String> prerequisites;
 
-    public OpenANewCourse(String departmentName, String courseName, int space, List<String> prerequisites){
+    public OpenANewCourse(String departmentName, String courseName, int space, List<String> prerequisites, CountDownLatch countDownLatch){
 
-        super();
+        super(countDownLatch);
         this.departmentName = departmentName;
         this.courseName = courseName;
         this.space = space;

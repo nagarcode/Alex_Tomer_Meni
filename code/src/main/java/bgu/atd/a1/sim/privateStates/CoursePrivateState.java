@@ -21,7 +21,7 @@ public class CoursePrivateState extends PrivateState{
 	 * this may cause automatic tests to fail..
 	 */
 	public CoursePrivateState(){
-		
+
 		super();
 		availableSpots = 0;
 		registered = 0;
@@ -54,13 +54,13 @@ public class CoursePrivateState extends PrivateState{
 
 	}
 
-	public void SetAvailableSpots(int availableSpots){/////
+	public void SetAvailableSpots(int availableSpots){
 
 		this.availableSpots = availableSpots;
 
 	}
 
-	public void SetRegisteredStudents(int registeredStudents){/////
+	public void SetRegisteredStudents(int registeredStudents){
 
 		this.registered = registeredStudents;
 

@@ -3,7 +3,9 @@ package bgu.atd.a1;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
-import java.util.Iterator;/////
+import java.util.Iterator;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * an abstract class that represents an action that may be executed using the
@@ -18,13 +20,16 @@ import java.util.Iterator;/////
  */
 public abstract class Action<R>{
 
-	@SerializedName("Action")
-	private String actionName;/////
-	private Promise<R> promise;/////
-	protected ActorThreadPool actorThreadPool;/////
+	private String actionName;
+	private Promise<R> promise;
+	protected ActorThreadPool actorThreadPool;
+	private CountDownLatch countDownLatch;
 
-	public Action(){
+	public Action(CountDownLatch countDownLatch){
+
 		promise = new Promise<>();
+		this.countDownLatch = countDownLatch;
+
 	}
 
 	/**
@@ -46,10 +51,11 @@ public abstract class Action<R>{
     * public/private/protected
     *
     */
-   /*package*/ final void handle(ActorThreadPool pool, String actorId, PrivateState actorState){/////
+   /*package*/ final void handle(ActorThreadPool pool, String actorId, PrivateState actorState){/////TODO: consider this method once more!
 
 		System.out.println("Handling action: "+ actionName); //TODO delete
    		actorThreadPool = pool;
+   		actorState.addRecord(this.actionName);
 
    		/*if(!(getResult()).isResolved()) {
 			actorState.addRecord(actionName);
@@ -74,11 +80,12 @@ public abstract class Action<R>{
      * @param actions
      * @param callback the callback to execute once all the results are resolved
      */
-    protected final void then(Collection<? extends Action<?>> actions, callback callback){///// NOTE: Definitely need to revise this one!
+    protected final void then(Collection<? extends Action<?>> actions, callback callback){
 
 		for(Action<?> action : actions){
 			(action.getResult()).subscribe(callback);
 		}
+
     }
 
     /**
@@ -87,16 +94,19 @@ public abstract class Action<R>{
      *
      * @param result - the action calculated result
      */
-    protected final void complete(R result){/////
+    protected final void complete(R result){
 
        	promise.resolve(result);
+
+       	if(!(countDownLatch == null))
+       		countDownLatch.countDown();
 
     }
     
     /**
      * @return action's promise (result)
      */
-    public final Promise<R> getResult(){/////
+    public final Promise<R> getResult(){
 
     	return promise;
 
@@ -112,7 +122,7 @@ public abstract class Action<R>{
      * @param actorState
 	 * 				actor's private state (actor's information)
      */
-	public void sendMessage(Action<?> action, String actorId, PrivateState actorState){/////
+	public void sendMessage(Action<?> action, String actorId, PrivateState actorState){
         
         actorThreadPool.submit(action, actorId, actorState);
 
@@ -122,7 +132,7 @@ public abstract class Action<R>{
 	 * set action's name
 	 * @param actionName
 	 */
-	public void setActionName(String actionName){/////
+	public void setActionName(String actionName){
 
         this.actionName = actionName;
 
@@ -131,7 +141,7 @@ public abstract class Action<R>{
 	/**
 	 * @return action's name
 	 */
-	public String getActionName(){/////
+	public String getActionName(){
 
         return actionName;
 

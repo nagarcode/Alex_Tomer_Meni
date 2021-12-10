@@ -5,14 +5,16 @@ import bgu.atd.a1.Actor;
 import bgu.atd.a1.sim.privateStates.StudentPrivateState;
 import bgu.atd.a1.sim.privateStates.DepartmentPrivateState;
 
+import java.util.concurrent.CountDownLatch;
+
 public class AddStudent extends Action<Void>{
 
 	private String departmentName;
 	private String studentID;
 
-	public AddStudent(String departmentName, String studentID){
-		
-		super();
+	public AddStudent(String departmentName, String studentID, CountDownLatch countDownLatch){
+
+		super(countDownLatch);
 		this.departmentName = departmentName;
 		this.studentID = studentID;
 

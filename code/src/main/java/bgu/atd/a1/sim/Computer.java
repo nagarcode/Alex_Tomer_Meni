@@ -59,12 +59,4 @@ public class Computer{
 
 	}
 
-	public void PrintComputer(){/////Remove this once done testing.
-
-		System.out.format("The value of computerType is: %s\n", computerType);
-		System.out.format("The value of failSig is: %ld\n", failSig);
-		System.out.format("The value of successSig is: %ld\n", successSig);
-
-	}
-
 }

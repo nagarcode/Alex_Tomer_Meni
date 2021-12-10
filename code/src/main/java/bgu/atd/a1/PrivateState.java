@@ -14,15 +14,17 @@ public abstract class PrivateState{
 	private final List<String> history;
 
 	public PrivateState(){
+
 		history = new LinkedList<>();
+
 	}
 
 	public List<String> getLogger(){
+
 		return history;
+
 	}
 
-
-	
 	/**
 	 * add an action to the records
 	 *  
@@ -33,12 +35,15 @@ public abstract class PrivateState{
 		history.add(actionName);
 
 	}
+
 	public String toString(){
+
 		StringBuilder out = new StringBuilder();
 		for (String entry: history) {
 		out.append(entry).append(", ");
 		}
 		return out.toString().substring(0,out.length()-2);
+		
 	}
 	
 }

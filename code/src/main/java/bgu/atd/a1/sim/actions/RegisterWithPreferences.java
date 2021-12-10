@@ -16,8 +16,9 @@ public class RegisterWithPreferences extends Action<Void>{
 	private List<String> preferences;
 	private List<Integer> grades; 
 
-	public RegisterWithPreferences(String studentID, List<String> preferences, List<Integer> grades){
+	public RegisterWithPreferences(String studentID, List<String> preferences, List<Integer> grades, CountDownLatch countDownLatch){
 
+		super(countDownLatch);
 		this.studentID = studentID;
 		this.preferences = preferences;
 		this.grades = grades;
@@ -37,7 +38,7 @@ public class RegisterWithPreferences extends Action<Void>{
 				break;
 
 			i += 1;
-			ParticipatingInCourse participatingInCourse = new ParticipatingInCourse(studentID, preference, grades.get(i));
+			ParticipatingInCourse participatingInCourse = new ParticipatingInCourse(studentID, preference, grades.get(i), null);
 			List<ParticipatingInCourse> dependencies = new LinkedList<>();
 			dependencies.add(participatingInCourse);
 

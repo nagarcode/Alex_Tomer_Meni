@@ -19,7 +19,7 @@ import java.util.concurrent.locks.Lock;
  * private, protected or package protected - in other words, no new public
  * methods
  */
-public class ActorThreadPool {
+public class ActorThreadPool{
 
 	private final List<Thread> threads;
 	private final ConcurrentHashMap<String, Actor> actors;
@@ -38,47 +38,41 @@ public class ActorThreadPool {
 	 *            pool
 	 */
 	public ActorThreadPool(int nthreads){
+
 		threads = new LinkedList<>();
 		actors = new ConcurrentHashMap<String, Actor>();
 		shutDownLatch = new CountDownLatch(nthreads);
 		initializeThreads(nthreads);
+
 	}
 
-	private void initializeThreads(int nthreads) {
-		for(int i=0; i<nthreads; i++){
+	private void initializeThreads(int nthreads){
+
+		for(int i = 0; i < nthreads; i++){
 			Thread thread = new Thread(()->{
 				while(!Thread.currentThread().isInterrupted()){
 					iterateOverQueues();
 				}
-				System.out.println("Thread interrupted: " + Thread.currentThread().toString());
+				System.out.println("Thread interrupted: " + Thread.currentThread().toString());/////Probably can be removed
 				shutDownLatch.countDown();
 			});
 			threads.add(thread);
 		}
+
 	}
 
-	private void iterateOverQueues() {
-		for(Actor actor : actors.values()) {
-//			if (Thread.currentThread().isInterrupted()) {
-//				break;
-//			} else {
-				Lock actorLock = actor.getLock();
-				ConcurrentLinkedQueue<Action<?>> actorQueue = actor.getPendingActions();
-				if(actorLock.tryLock() && !actorQueue.isEmpty()){
-//					try{
-						Action<?> action = actorQueue.remove();
-						action.handle(this, actor.getId(),actor.getPrivateState());
-//					}
-//					catch(Exception e){
-//						System.out.println("Tried querying an empty queue");
-//						System.out.println(e.toString());
-//					}
-//					finally {
-						actorLock.unlock();
-//					}
-				}
-//			}
+	private void iterateOverQueues(){
+
+		for(Actor actor : actors.values()){			
+			Lock actorLock = actor.getLock();
+			ConcurrentLinkedQueue<Action<?>> actorQueue = actor.getPendingActions();
+			if(actorLock.tryLock() && !actorQueue.isEmpty()){
+				Action<?> action = actorQueue.remove();
+				action.handle(this, actor.getId(),actor.getPrivateState());
+				actorLock.unlock();
+			}
 		}
+
 	}
 
 	/**
@@ -86,17 +80,21 @@ public class ActorThreadPool {
 	 * @return actors
 	 */
 	public Map<String, PrivateState> getActors(){
+
 		HashMap<String, PrivateState> acts = new HashMap<>();
+
 		for(Actor act : actors.values()){
 			acts.put(act.getId(), act.getPrivateState());
 		}
+
 		return acts;
+
 	}
 
 	public ConcurrentHashMap<String, Actor> GetRawActors(){
 
 		return actors;
-		
+
 	}
 	
 	/**
@@ -105,7 +103,9 @@ public class ActorThreadPool {
 	 * @return actor's private state
 	 */
 	public PrivateState getPrivateState(String actorId){
+
 		return actors.get(actorId).getPrivateState();
+
 	}
 
 
@@ -120,14 +120,16 @@ public class ActorThreadPool {
 	 * @param actorState
 	 *            actor's private state (actor's information)
 	 */
-	public void submit(Action<?> action, String actorId, PrivateState actorState) {
+	public void submit(Action<?> action, String actorId, PrivateState actorState){
+
 		synchronized (this){
 			if(!actors.containsKey(actorId)){
-				Actor actor = new Actor(actorId,actorState);
+				Actor actor = new Actor(actorId, actorState);
 				actors.put(actorId, actor);
 			}
 			actors.get(actorId).addAction(action);
 		}
+
 	}
 
 	/**
@@ -140,7 +142,8 @@ public class ActorThreadPool {
 	 * @throws InterruptedException
 	 *             if the thread that shut down the threads is interrupted
 	 */
-	public void shutdown() throws InterruptedException{
+	public void shutdown() throws InterruptedException{/////Probably should remove prints before final submission.
+
 		System.out.println("Shutdown initiated");
 		for(Thread thread : threads){
 			thread.interrupt();
@@ -148,17 +151,20 @@ public class ActorThreadPool {
 		System.out.println("Sent interrupt to all threads.");
 		shutDownLatch.await();
 		System.out.println("Shutdown successful.");
+
 	}
 
 	/**
 	 * start the threads belongs to this thread pool
 	 */
-	public void start() {
+	public void start(){/////Probably should remove prints before final submission.
+
 		for(Thread thread : threads){
 			System.out.println("Starting thread: " + thread.getId());
 			thread.start();
 		}
 		System.out.println("ThreadPool started");
+
 	}
 
 }

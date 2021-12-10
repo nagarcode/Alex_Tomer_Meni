@@ -7,15 +7,17 @@ import bgu.atd.a1.sim.privateStates.StudentPrivateState;
 import java.util.List;
 import java.util.HashMap;
 
+import java.util.concurrent.CountDownLatch;
+
 public class ParticipatingInCourse extends Action<Boolean>{
 
 	private String studentID;
 	private String courseName;
 	private Integer grade;
 
-	public ParticipatingInCourse(String studentID, String courseName, Integer grade){
+	public ParticipatingInCourse(String studentID, String courseName, Integer grade, CountDownLatch countDownLatch){
 
-		super();
+		super(countDownLatch);
 		this.studentID = studentID;
 		this.courseName = courseName;
 		this.grade = grade;
