@@ -27,7 +27,7 @@ public class AddStudent extends Action<Void>{
 
 		((((DepartmentPrivateState) (actorThreadPool.getActors()).get(departmentName))).getStudentList()).add(studentID);
 
-		(actorThreadPool.GetRawActors()).put(studentID, new Actor(studentID, new StudentPrivateState()));
+		(actorThreadPool.getActors()).put(studentID, new StudentPrivateState());
 
 		complete(null);
 

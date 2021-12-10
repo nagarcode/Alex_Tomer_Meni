@@ -51,24 +51,14 @@ public abstract class Action<R>{
     * public/private/protected
     *
     */
-   /*package*/ final void handle(ActorThreadPool pool, String actorId, PrivateState actorState){/////TODO: consider this method once more!
+   /*package*/ final void handle(ActorThreadPool pool, String actorId, PrivateState actorState){
 
-		System.out.println("Handling action: "+ actionName); //TODO delete
    		actorThreadPool = pool;
    		actorState.addRecord(this.actionName);
 
-   		/*if(!(getResult()).isResolved()) {
-			actorState.addRecord(actionName);
-			start();
-		}
-   		else{
-   			pool.submit(this, actorId, actorState);
-			   System.out.println("added record");
-   		}*/
    		start();
 
    }
-    
     
     /**
      * add a callback to be executed once *all* the given actions results are

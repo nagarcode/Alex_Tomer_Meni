@@ -37,7 +37,7 @@ public class OpenANewCourse extends Action<Void>{
         coursePrivateState.SetAvailableSpots(space);
         (coursePrivateState.getPrequisites()).addAll(prerequisites);
         
-        (actorThreadPool.GetRawActors()).put(courseName, new Actor(courseName, coursePrivateState));
+        (actorThreadPool.getActors()).put(courseName, coursePrivateState);
 
         complete(null);
 

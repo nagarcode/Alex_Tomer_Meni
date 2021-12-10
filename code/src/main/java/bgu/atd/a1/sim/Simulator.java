@@ -69,8 +69,6 @@ public class Simulator{
 				System.out.println("Thread was interrupted.");
 			}	
 
-			System.out.println("Phase 1 is now completed!");
-
 			CountDownLatch countDownLatchPhase2 = new CountDownLatch((parsedObject.Phase2).length);
 
 			for(int i = 0; i < (parsedObject.Phase2).length; i++)
@@ -83,8 +81,6 @@ public class Simulator{
 				System.out.println("Thread was interrupted.");
 			}
 
-			System.out.println("Phase 2 is now completed!");
-
 			CountDownLatch countDownLatchPhase3 = new CountDownLatch((parsedObject.Phase3).length);
 
 			for(int i = 0; i < (parsedObject.Phase3).length; i++)
@@ -96,8 +92,6 @@ public class Simulator{
 			catch(InterruptedException exception){
 				System.out.println("Thread was interrupted.");
 			}
-
-			System.out.println("Phase 3 is now completed!");
 
     }
 
@@ -135,7 +129,6 @@ public class Simulator{
 				objectOutputStream.writeObject(output);
 			}
 			catch(IOException exception){
-				System.out.println("IO exception encountered.");
 			}	
 		}
 		catch(FileNotFoundException exception){
@@ -153,7 +146,7 @@ public class Simulator{
 			Gson gson = new Gson();
 			JsonReader jsonReader = new JsonReader(new FileReader(inputFileName));
 			parsedObject = gson.fromJson(jsonReader, ParseJSONInput.class);
-			actorThreadPool = new ActorThreadPool(parsedObject.threads);
+			attachActorThreadPool(new ActorThreadPool(parsedObject.threads));
 		}
 		catch(FileNotFoundException exception){
 			System.out.println("Couldn't find the supplied file.");
@@ -162,47 +155,6 @@ public class Simulator{
 		start();
 		
 		end();
-
-			//For testing result:
-
-		List<String> actionsHistoryMath = ( (DepartmentPrivateState) (actorThreadPool.getActors()).get("Math")).getLogger();
-		for(String action : actionsHistoryMath)
-			System.out.format("The action: %s was performed by Math actor\n", action);
-
-		List<String> actionsHistoryCS = ( (DepartmentPrivateState) (actorThreadPool.getActors()).get("CS")).getLogger();
-		for(String action : actionsHistoryCS)
-			System.out.format("The action: %s was performed by CS actor\n", action);
-
-		List<String> actionsHistoryCombinatorics = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Combinatorics")).getLogger();
-		for(String action : actionsHistoryCombinatorics)
-			System.out.format("The action: %s was performed by Combinatorics actor\n", action);
-
-		List<String> actionsHistoryIntroToCS = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getLogger();
-		for(String action : actionsHistoryIntroToCS)
-			System.out.format("The action: %s was performed by Intro To CS actor\n", action);
-			
-			/*List<String> registeredStudentsDataStructures = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Data Structures")).getRegStudents();
-			if(registeredStudentsDataStructures.isEmpty())
-				System.out.println("Obtained an empty list as was expected.");
-
-			List<String> registeredStudentsSPL = ( (CoursePrivateState) (actorThreadPool.getActors()).get("SPL")).getRegStudents();
-			for(String student : registeredStudentsSPL)
-				System.out.println(student);
-			
-
-			List<String> registeredStudentsIntroToCS = ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getRegStudents();
-			//if(registeredStudentsIntroToCS.isEmpty())
-				//System.out.println("Obtained an empty list as was expected.");
-			for(String student : registeredStudentsIntroToCS)
-				System.out.println(student);
-
-			System.out.format("The student got the grade: %d in Intro To CS\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getGrades()).get("Intro To CS"));
-			System.out.format("The student got the grade: %d in SPL\n", (( (StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getGrades()).get("SPL"));*/
-
-			/*System.out.format("The number of available spots for the Intro To CS course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("Intro To CS")).getAvailableSpots());
-			System.out.format("The number of available spots for the SPL course is: %d\n", ( (CoursePrivateState) (actorThreadPool.getActors()).get("SPL")).getAvailableSpots());
-			System.out.format("The student got the following signature: %d\n", ((StudentPrivateState) (actorThreadPool.getActors()).get("123456789")).getSignature());
-			System.out.format("The student got the following signature: %d\n", ((StudentPrivateState) (actorThreadPool.getActors()).get("987654321")).getSignature());*/
 
 	}
 

@@ -55,7 +55,6 @@ public class ActorThreadPool{
 				while(!Thread.currentThread().isInterrupted()){
 					iterateOverQueues();
 				}
-				System.out.println("Thread interrupted: " + Thread.currentThread().toString());/////Probably can be removed
 				shutDownLatch.countDown();
 			});
 			threads.add(thread);
@@ -84,12 +83,6 @@ public class ActorThreadPool{
 	public Map<String, PrivateState> getActors(){
 
 		return states;
-
-	}
-
-	public ConcurrentHashMap<String, Actor> GetRawActors(){
-
-		return actors;
 
 	}
 	
@@ -139,28 +132,22 @@ public class ActorThreadPool{
 	 * @throws InterruptedException
 	 *             if the thread that shut down the threads is interrupted
 	 */
-	public void shutdown() throws InterruptedException{/////Probably should remove prints before final submission.
+	public void shutdown() throws InterruptedException{
 
-		System.out.println("Shutdown initiated");
 		for(Thread thread : threads){
 			thread.interrupt();
 		}
-		System.out.println("Sent interrupt to all threads.");
 		shutDownLatch.await();
-		System.out.println("Shutdown successful.");
 
 	}
 
 	/**
 	 * start the threads belongs to this thread pool
 	 */
-	public void start(){/////Probably should remove prints before final submission.
+	public void start(){
 
-		for(Thread thread : threads){
-			System.out.println("Starting thread: " + thread.getId());
+		for(Thread thread : threads)
 			thread.start();
-		}
-		System.out.println("ThreadPool started");
 
 	}
 

@@ -77,8 +77,6 @@ public class Promise<T>{
 		if(isResolved)
 			throw new IllegalStateException("This Promise object is already resolved.");
 		else{
-			if(value != null)//Remove after finishing testing
-				System.out.println(value);
 			result = value;
 			isResolved = true;
 
