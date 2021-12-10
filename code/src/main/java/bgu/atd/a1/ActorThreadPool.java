@@ -122,7 +122,7 @@ public class ActorThreadPool{
 			if(!actors.containsKey(actorId)){
 				Actor actor = new Actor(actorId);
 				actors.put(actorId, actor);
-				states.put(actorId,actorState);
+				states.putIfAbsent(actorId,actorState);
 			}
 			actors.get(actorId).addAction(action);
 		}
