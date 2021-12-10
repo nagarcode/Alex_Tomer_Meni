@@ -24,6 +24,7 @@ public class ActorThreadPool{
 	private final List<Thread> threads;
 	private final ConcurrentHashMap<String, Actor> actors;
 	private final CountDownLatch shutDownLatch;
+	private final ConcurrentHashMap<String, PrivateState> states;
 
 	/**
 	 * creates a {@link ActorThreadPool} which has nthreads. Note, threads
@@ -42,6 +43,7 @@ public class ActorThreadPool{
 		threads = new LinkedList<>();
 		actors = new ConcurrentHashMap<String, Actor>();
 		shutDownLatch = new CountDownLatch(nthreads);
+		states = new ConcurrentHashMap<>();
 		initializeThreads(nthreads);
 
 	}
@@ -68,7 +70,7 @@ public class ActorThreadPool{
 			ConcurrentLinkedQueue<Action<?>> actorQueue = actor.getPendingActions();
 			if(actorLock.tryLock() && !actorQueue.isEmpty()){
 				Action<?> action = actorQueue.remove();
-				action.handle(this, actor.getId(),actor.getPrivateState());
+				action.handle(this, actor.getId(),states.get(actor.getId()));
 				actorLock.unlock();
 			}
 		}
@@ -81,13 +83,7 @@ public class ActorThreadPool{
 	 */
 	public Map<String, PrivateState> getActors(){
 
-		HashMap<String, PrivateState> acts = new HashMap<>();
-
-		for(Actor act : actors.values()){
-			acts.put(act.getId(), act.getPrivateState());
-		}
-
-		return acts;
+		return states;
 
 	}
 
@@ -104,7 +100,7 @@ public class ActorThreadPool{
 	 */
 	public PrivateState getPrivateState(String actorId){
 
-		return actors.get(actorId).getPrivateState();
+		return states.get(actorId);
 
 	}
 
@@ -124,8 +120,9 @@ public class ActorThreadPool{
 
 		synchronized (this){
 			if(!actors.containsKey(actorId)){
-				Actor actor = new Actor(actorId, actorState);
+				Actor actor = new Actor(actorId);
 				actors.put(actorId, actor);
+				states.put(actorId,actorState);
 			}
 			actors.get(actorId).addAction(action);
 		}
